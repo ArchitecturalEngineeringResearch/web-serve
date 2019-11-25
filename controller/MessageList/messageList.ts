@@ -7,8 +7,12 @@ import { messageListModel } from '../../models/MessageList/messageList'
 
 const router = Express.Router()
 
-router.get('/', (req, res) => {
-  
+router.get(
+  '/', 
+  (req: Request, res: Response) => {
+    messageListModel.findList((err, value) => {
+      res.send(value)
+  })
 })
 
 router.post(
@@ -28,8 +32,15 @@ router.post(
   }
 )
 
-router.delete('/', (req, res) => {
-
-})
-
+router.delete(
+  '/:messageId', 
+  (req: Request, res: Response) => {
+    messageListModel.remove(req.params.messageId, (err, value)=> {
+      if(err) {
+        res.send(err)
+      }
+      res.send(value)
+    })
+  }
+)
 export default router
