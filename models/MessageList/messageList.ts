@@ -1,4 +1,4 @@
-import { model, Document} from 'mongoose'
+import { model, Document, Types} from 'mongoose'
 import { MessageSchema } from '../../models/MessageList/schema'
 import { ICreateMassage } from '../../types/IMessageList';
 
@@ -13,5 +13,20 @@ export const messageListModel = {
         value,
         call
       )
-    }
+    },
+    /***
+    创建一条文档
+    */
+   findList: (call: (err: any, res: Array<Document>) => any) => {
+    MessagesModel.find(
+      {},
+      call
+    )
+  },
+  remove: (id: string, call: (err: any, res: Array<Document>) => any) => {
+    MessagesModel.findOneAndRemove(
+      Types.ObjectId(id),
+      call
+    )
+  },
 }
