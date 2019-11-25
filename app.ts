@@ -1,11 +1,12 @@
 import * as Express from "express";
 import * as bodyParser from 'body-parser'
-import { connect } from 'mongoose'
+import * as mongoose from 'mongoose'
 
 import {user, messageList} from './controller'
 import { NOT_FOUND_404 } from "./util/httpStatus";
 import { MongoClientURL, MongoClientDBName, portNumber } from "./config";
 
+const { connect } = mongoose
 const app = Express()
 
 function connectMongodb(): Promise<typeof import("mongoose")> {
@@ -17,7 +18,6 @@ function connectMongodb(): Promise<typeof import("mongoose")> {
       useUnifiedTopology: true,
     }
   )
-  
 }
 
 async function startAPP() {

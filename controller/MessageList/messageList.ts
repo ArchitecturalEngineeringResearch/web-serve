@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { validationResult, checkSchema, Result,ValidationError }  from 'express-validator' 
 import { createMassage } from './validator'
 import { PRECONDITION_FAILED_412 } from '../../util/httpStatus'
+import { messageListModel } from '../../models/MessageList/messageList'
 
 const router = Express.Router()
 
@@ -19,8 +20,11 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(PRECONDITION_FAILED_412).json({ errors: errors.array() });
     }
-    
-    res.send(req.body)
+
+    messageListModel.createOne(req.body, (err, value)=> {
+      console.log(value)
+      res.send(value)
+    })
   }
 )
 
