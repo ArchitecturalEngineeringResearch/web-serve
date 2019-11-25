@@ -28,7 +28,8 @@ export const createMassage: Record<keyof IMessageList.ICreateMassage, ParamSchem
       options: {
         max: 150,
         min: 5
-      }
+      },
+      errorMessage: '必须是 5 - 150',
     }
   },
   phoneNumber: {
