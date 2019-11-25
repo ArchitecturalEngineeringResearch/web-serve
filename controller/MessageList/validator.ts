@@ -1,8 +1,8 @@
-import { CreateMassage } from './types'
+import { IMessageList } from '../../types'
 import { ParamSchema }  from 'express-validator' 
 import { number } from '../../util/regExps'
 
-export const createMassage: Record<keyof CreateMassage, ParamSchema> = {
+export const createMassage: Record<keyof IMessageList.ICreateMassage, ParamSchema> = {
   title: {
     exists:{
       errorMessage: '必须是存在',
@@ -57,6 +57,10 @@ export const createMassage: Record<keyof CreateMassage, ParamSchema> = {
     }
   },
   createDate: {},
+  city: {},
+  province: {},
+  longitude: {},
+  latitude: {},
 }
 
 const validator = {
