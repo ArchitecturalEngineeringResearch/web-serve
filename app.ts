@@ -1,31 +1,52 @@
 import * as Express from "express";
 import * as bodyParser from 'body-parser'
-import { MongoClient } from 'mongodb'
+import { connect } from 'mongoose'
 
 import {user, messageList} from './controller'
 import { NOT_FOUND_404 } from "./util/httpStatus";
-import { MongoClientURL } from "./config";
+import { MongoClientURL, MongoClientDBName, portNumber } from "./config";
 
 const app = Express()
 
-const client = new MongoClient(MongoClientURL, { useNewUrlParser: true });
-client.connect(err => {
-  console.log('mongodb ------ 连接成功')
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
+function connectMongodb(): Promise<typeof import("mongoose")> {
+  return connect(
+    MongoClientURL,
+    { 
+      dbName: MongoClientDBName,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  
+}
 
+async function startAPP() {
+  await connectMongodb().then(() => {
+    console.log(`
+      Mongodb Access Successful:
+        DBname: ${MongoClientDBName}
+        Address: ${MongoClientURL}`)
+      runServer()
+  }).catch((error)=> {
+    console.error(error)
+  })
+}
 
-app.use(bodyParser.urlencoded({ extended: true }))
+function runServer () {
+  app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use('/user',user)
-app.use('/messageList',messageList)
+  app.use('/user',user)
+  app.use('/messageList',messageList)
 
-app.use('*', (req, res) => {
-  res.status(NOT_FOUND_404);
-  res.send(NOT_FOUND_404);
-});
+  app.use('*', (req, res) => {
+    res.status(NOT_FOUND_404);
+    res.send(NOT_FOUND_404);
+  });
 
-app.listen(3000);
-console.log('listening to port 3000');
+  app.listen(portNumber);
+  console.log(`
+    Server listening to port ${portNumber}
+  `);
+}
+
+startAPP()
