@@ -1,6 +1,6 @@
 import * as Express from 'express'
 import { Request, Response } from 'express'
-import { validationResult, checkSchema, Result,ValidationError }  from 'express-validator' 
+import { validationResult, checkSchema, Result,ValidationError }  from 'express-validator'
 import { createMassage } from './validator'
 import { PRECONDITION_FAILED_412 } from '../../util/httpStatus'
 import { messageListModel } from '../../models/MessageList/messageList'
@@ -8,7 +8,7 @@ import { messageListModel } from '../../models/MessageList/messageList'
 const router = Express.Router()
 
 router.get(
-  '/', 
+  '/',
   (req: Request, res: Response) => {
     messageListModel.findList((err, value) => {
       res.send(value)
@@ -16,7 +16,7 @@ router.get(
 })
 
 router.post(
-  '/createMessage', 
+  '/createMessage',
   checkSchema(createMassage),
   (req: Request, res: Response) => {
     const errors: Result<ValidationError> = validationResult(req);
@@ -33,7 +33,7 @@ router.post(
 )
 
 router.delete(
-  '/:messageId', 
+  '/:messageId',
   (req: Request, res: Response) => {
     messageListModel.remove(req.params.messageId, (err, value)=> {
       if(err) {

@@ -12,7 +12,7 @@ const app = Express()
 function connectMongodb(): Promise<typeof import("mongoose")> {
   return connect(
     MongoClientURL,
-    { 
+    {
       dbName: MongoClientDBName,
       useNewUrlParser: true,
       useUnifiedTopology: true,

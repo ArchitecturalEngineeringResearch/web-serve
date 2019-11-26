@@ -1,5 +1,5 @@
 import { IMessageList } from '../../types'
-import { ParamSchema }  from 'express-validator' 
+import { ParamSchema }  from 'express-validator'
 import { number } from '../../util/regExps'
 
 export const createMassage: Record<keyof IMessageList.ICreateMassage, ParamSchema> = {
@@ -43,7 +43,7 @@ export const createMassage: Record<keyof IMessageList.ICreateMassage, ParamSchem
       options: (value) => number.china_phone.test(value),
       errorMessage: '手机号码无法通过验证',
     }
-  }, 
+  },
   endDate: {
     exists:{
       errorMessage: '必须是存在',

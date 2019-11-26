@@ -1,4 +1,4 @@
-import { check }  from 'express-validator' 
+import { check }  from 'express-validator'
 
 const validator = {
 
