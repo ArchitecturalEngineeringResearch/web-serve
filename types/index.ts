@@ -1,2 +1,7 @@
 import * as IMessageList from "./IMessageList"
-export {IMessageList}
+import * as IUser from "./IUser"
+
+export {
+  IMessageList,
+  IUser
+}
