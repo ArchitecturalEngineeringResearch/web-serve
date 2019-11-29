@@ -14,14 +14,13 @@ export const messageListModel = {
         call
       )
     },
-    /***
-    创建一条文档
-    */
-   findList: (call: (err: any, res: Array<Document>) => any) => {
+   findList: ({page, size},call: (err: any, res: Array<Document>) => any) => {
+     size = parseInt(size)
     MessagesModel.find(
       {},
       call
-    )
+    ).skip(page * size - size)
+    .limit(size)
   },
   remove: (id: string, call: (err: any, res: Array<Document>) => any) => {
     MessagesModel.findOneAndRemove(

@@ -1,7 +1,6 @@
 import * as Express from 'express'
 import { Request, Response } from 'express'
 import { validationResult, checkSchema, Result,ValidationError }  from 'express-validator'
-import { Document} from 'mongoose'
 
 import { wechatCredentialsSheck, IReswechatCredentials, REQUEST_SUCCEED } from "../../components/WxCredentials";
 import { loginValidator } from "./validator";
@@ -11,17 +10,17 @@ import { userModel } from '../../models/User/user';
 const router = Express.Router()
 
 router.post(
-  '/onLogin',  
-  checkSchema(loginValidator), 
+  '/onLogin',
+  checkSchema(loginValidator),
   (req: Request, res: Response) => {
 
   const errors: Result<ValidationError> = validationResult(req);
-  
+
   // 验证
   if (!errors.isEmpty()) {
     return res.status(PRECONDITION_FAILED_412).json({ errors: errors.array() });
   }
-  
+
   // 去微信接口验证证书
   wechatCredentialsSheck(
     req.body,
@@ -34,7 +33,7 @@ router.post(
         userModel.createOne({unionid,openid}, (err: any) => res.send(data))
         return
       }
-      
+
       res.status(SERVER_ERROR_500).send({
           errcode: data.errcode,
           errmsg: data.errmsg,
