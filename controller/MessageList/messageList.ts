@@ -8,11 +8,13 @@ import { messageListModel } from '../../models/MessageList/messageList'
 const router = Express.Router()
 
 router.get(
-  '/:page/:size',
+  '/',
   (req: Request, res: Response) => {
-    const {page = 1, size = 5} = req.params
+    const {page = 1, size = 5} = req.query
     messageListModel.findList({page, size},(err, value) => {
-      console.log(err)
+      if(err) {
+        console.log(err)
+      }
       res.send(value)
   })
 })
