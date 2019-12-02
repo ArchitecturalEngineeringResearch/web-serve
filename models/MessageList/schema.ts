@@ -5,6 +5,7 @@ type IMessageSchema = Record<keyof IMessageList.ICreateMassage, any>
 
 export const MessageSchema: Schema<IMessageSchema> = new Schema({
   title: String,
+  type: String,
   description: String,
   phoneNumber: Number,
   createDate: [String,Number],

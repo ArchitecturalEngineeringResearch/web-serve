@@ -1,5 +1,6 @@
 export interface ICreateMassage {
   title: string;
+  type: string;
   description: string;
   phoneNumber: number;
   createDate: string | number;
