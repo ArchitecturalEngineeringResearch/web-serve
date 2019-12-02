@@ -10,8 +10,9 @@ const router = Express.Router()
 router.get(
   '/',
   (req: Request, res: Response) => {
-    const {page = 1, size = 5} = req.query
-    messageListModel.findList({page, size},(err, value) => {
+    const { page = 1, size = 5, deviceType } = req.query
+
+    messageListModel.findList({page, size, deviceType},(err, value) => {
       if(err) {
         console.log(err)
       }

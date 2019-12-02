@@ -62,6 +62,11 @@ export const createMassage: Record<keyof IMessageList.ICreateMassage, ParamSchem
   province: {},
   longitude: {},
   latitude: {},
+  type: {
+    exists:{
+      errorMessage: '必须是存在',
+    },
+  },
 }
 
 const validator = {

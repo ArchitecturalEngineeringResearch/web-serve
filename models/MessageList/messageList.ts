@@ -5,24 +5,38 @@ import { ICreateMassage } from '../../types/IMessageList';
 const MessagesModel = model('Message', MessageSchema, 'zc_messages');
 
 export const messageListModel = {
-    /***
-    创建一条文档
-    */
-    createOne: (value: ICreateMassage, call: (err: any, res: Array<Document>) => any) => {
-      MessagesModel.create(
-        value,
-        call
-      )
-    },
-   findList: ({page, size},call: (err: any, res: Array<Document>) => any) => {
-     size = parseInt(size)
+  /***
+  创建一条文档
+  */
+  createOne: (value: ICreateMassage, call: (err: any, res: Array<Document>) => any) => {
+    MessagesModel.create(
+      value,
+      call
+    )
+  },
+  /**
+   分页条件查询
+   */
+  findList: ({page, size, deviceType}, call: (err: any, res: Array<Document>) => any) => {
+    size = parseInt(size)
+    let option = {}
+
+    if(deviceType) {
+      option = {
+        type: deviceType
+      }
+    }
+
     MessagesModel.find(
-      {},
+      option,
       call
     ).skip(page * size - size)
     .limit(size)
   },
-  remove: (id: string, call: (err: any, res: Array<Document>) => any) => {
+  /**
+   删除 ID
+  */
+  remove: (id: string, call: (err: any, res: any) => any) => {
     MessagesModel.findOneAndRemove(
       Types.ObjectId(id),
       call
