@@ -1,11 +1,13 @@
 import * as Express from 'express'
 import { Request, Response } from 'express'
+import * as bodyParser from 'body-parser'
 import { validationResult, checkSchema, Result,ValidationError }  from 'express-validator'
-import { createMassage } from './validator'
+import { createMessage } from './validator'
 import { PRECONDITION_FAILED_412 } from '../../util/httpStatus'
 import { messageListModel } from '../../models/MessageList/messageList'
 
 const router = Express.Router()
+const jsonParser = bodyParser.json()
 
 router.get(
   '/',
@@ -15,6 +17,7 @@ router.get(
     messageListModel.findList({page, size, deviceType},(err, value) => {
       if(err) {
         console.log(err)
+        return
       }
       res.send(value)
   })
@@ -22,16 +25,22 @@ router.get(
 
 router.post(
   '/createMessage',
-  checkSchema(createMassage),
+  jsonParser,
+  checkSchema(createMessage),
   (req: Request, res: Response) => {
     const errors: Result<ValidationError> = validationResult(req);
     // 验证
+
     if (!errors.isEmpty()) {
       return res.status(PRECONDITION_FAILED_412).json({ errors: errors.array() });
     }
 
     messageListModel.createOne(req.body, (err, value)=> {
-      console.log(value)
+      console.log(err)
+      if(err) {
+        res.send(err)
+        return
+      }
       res.send(value)
     })
   }
