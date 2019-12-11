@@ -1,4 +1,4 @@
-export interface ICreateMassage {
+export interface ICreateMessage {
   title: string;
   type: string;
   description: string;
@@ -8,5 +8,7 @@ export interface ICreateMassage {
   province: string;
   city: string;
   longitude: string;
+  status: Number, // 0 租 1 需求
+  photos: [String],
   latitude: string;
 }

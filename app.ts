@@ -15,8 +15,9 @@ function connectMongodb(): Promise<typeof import("mongoose")> {
     {
       dbName: MongoClientDBName,
       useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
+      useUnifiedTopology: true
+    } as any,
+    ()=>{}
   )
 }
 
@@ -33,6 +34,7 @@ async function startAPP() {
 }
 
 function runServer () {
+
   app.use(bodyParser.urlencoded({ extended: true }))
 
   app.use('/user',user)
