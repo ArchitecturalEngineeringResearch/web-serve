@@ -1,2 +1,2 @@
-export { default as messageList } from "./messageList/messageList";
-export { default as user } from "./user/user";
+export { default as messageList } from "./MessageList/messageList";
+export { default as user } from "./User/user";
