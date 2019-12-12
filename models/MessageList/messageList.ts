@@ -30,8 +30,9 @@ export const messageListModel = {
     MessagesModel.find(
       option,
       call
-    ).skip(page * size - size)
-    .limit(size)
+    ).limit(size)
+    .skip(page * size - size)
+    .sort([['_id',-1]])
   },
   /**
    删除 ID
