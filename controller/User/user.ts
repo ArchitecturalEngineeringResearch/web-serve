@@ -1,4 +1,5 @@
 import * as Express from 'express'
+import * as bodyParser from 'body-parser'
 import { Request, Response } from 'express'
 import { validationResult, checkSchema, Result,ValidationError }  from 'express-validator'
 
@@ -8,12 +9,13 @@ import { PRECONDITION_FAILED_412, SERVER_ERROR_500 } from '../../util/httpStatus
 import { userModel } from '../../models/User/user';
 
 const router = Express.Router()
+const jsonParser = bodyParser.json()
 
 router.post(
   '/onLogin',
+  jsonParser,
   checkSchema(loginValidator),
   (req: Request, res: Response) => {
-
   const errors: Result<ValidationError> = validationResult(req);
 
   // 验证
@@ -25,19 +27,25 @@ router.post(
   wechatCredentialsSheck(
     req.body,
     (data: IReswechatCredentials) => {
-      // 获取并保存 openid 和 unionid
+      if(!data) {
+        res.status(SERVER_ERROR_500).send({
+          errcode: '错误',
+        });
+        return
+      }
 
+      // 获取并保存 openid 和 unionid
       if(data.errcode === REQUEST_SUCCEED) {
         const { unionid, openid } = data
         // 持久化
-        userModel.createOne({unionid,openid}, (err: any) => res.send(data))
+        userModel.createOne({unionid, openid}, (err: any) => res.send(data))
         return
       }
 
       res.status(SERVER_ERROR_500).send({
           errcode: data.errcode,
           errmsg: data.errmsg,
-        });
+      });
     }
   )
 })
