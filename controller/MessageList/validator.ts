@@ -75,14 +75,7 @@ export const createMessage: Record<keyof IMessageList.ICreateMessage, ParamSchem
       errorMessage: '必须是存在',
     },
   },
-  createDate: {
-    exists:{
-      errorMessage: '必须是存在',
-    },
-    isString: {
-      errorMessage: '必须是 String',
-    },
-  },
+  createDate: {},
   city: {},
   province: {},
   longitude: {},
