@@ -2,7 +2,8 @@ export interface IwechatCredentials {
   appid: string;
   secret: string;
   jsCode: string;
-  authorization_code: string;
+  encryptedData: string;
+  iv: string;
 }
 
 export interface IUserModel {
