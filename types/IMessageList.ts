@@ -11,4 +11,6 @@ export interface ICreateMessage {
   status: Number, // 0 租 1 需求
   photos: [String],
   latitude: string;
+  unionId: string;
+  openId: string;
 }

@@ -13,6 +13,8 @@ export const MessageSchema: Schema<IMessageSchema> = new Schema({
   longitude: String,
   latitude: String,
   endDate: String,
+  openId: String,
+  unionId: String,
   status: {
     type: String,
     enum: ['NO_IDLE', 'IDLE'], // 枚举

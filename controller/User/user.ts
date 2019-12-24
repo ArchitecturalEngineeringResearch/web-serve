@@ -35,9 +35,7 @@ router.post(
         const pc = new WXBizDataCrypt(req.body, session_key)
         const infoData = pc.decryptData(req.body.encryptedData, req.body.iv)
 
-        res.send({
-          body: infoData
-        })
+        res.send(infoData)
 
         // 持久化
         // userModel.createOne({unionid, openid}, (err: any) => res.send(response))
