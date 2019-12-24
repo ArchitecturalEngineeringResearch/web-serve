@@ -26,6 +26,22 @@ export const loginValidator : Record<keyof IwechatCredentials, ParamSchema> = {
       errorMessage: '必须是 String',
     },
   },
+  iv: {
+    exists:{
+      errorMessage: '必须是存在',
+    },
+    isString: {
+      errorMessage: '必须是 String',
+    },
+  },
+  encryptedData: {
+    exists:{
+      errorMessage: '必须是存在',
+    },
+    isString: {
+      errorMessage: '必须是 String',
+    },
+  },
 }
 
 const validator = {
