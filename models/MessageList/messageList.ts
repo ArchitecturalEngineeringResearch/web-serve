@@ -37,9 +37,21 @@ export const messageListModel = {
   /**
    删除 ID
   */
-  remove: (id: string, call: (err: any, res: any) => any) => {
-    MessagesModel.findOneAndRemove(
-      Types.ObjectId(id),
+  remove: (id: string, call: (err: any) => void) => {
+    MessagesModel.deleteOne(
+      { _id:  Types.ObjectId(id) },
+      call
+    )
+  },
+
+  /**
+   ID 查询历史记录
+  */
+ history: (unionId: string, call: (err: any, res: any) => any) => {
+    MessagesModel.find(
+      {
+        unionId: unionId
+      },
       call
     )
   },
