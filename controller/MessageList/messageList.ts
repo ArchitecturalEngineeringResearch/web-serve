@@ -23,6 +23,27 @@ router.get(
   })
 })
 
+router.get(
+  '/history',
+  (req: Request, res: Response) => {
+    const { unionId = '' } = req.query
+
+
+    if(!unionId) {
+      return res.status(PRECONDITION_FAILED_412).json({ errors: 'unionId 不能为空' });
+    }
+
+    messageListModel.history(unionId,(err, value)=>{
+
+      if(err) {
+        res.send(err)
+        return
+      }
+      console.log(value)
+      res.send(value)
+    })
+})
+
 router.post(
   '/createMessage',
   jsonParser,
@@ -49,11 +70,11 @@ router.post(
 router.delete(
   '/:messageId',
   (req: Request, res: Response) => {
-    messageListModel.remove(req.params.messageId, (err, value)=> {
+    messageListModel.remove(req.params.messageId, (err)=> {
       if(err) {
         res.send(err)
       }
-      res.send(value)
+      res.send('')
     })
   }
 )
