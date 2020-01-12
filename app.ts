@@ -1,6 +1,10 @@
 import * as Express from "express";
 import * as bodyParser from 'body-parser'
 import * as mongoose from 'mongoose'
+import * as https from 'https'
+import * as http from 'http'
+import * as fs from 'fs'
+
 
 import {user, messageList} from './controller'
 import { NOT_FOUND_404 } from "./util/httpStatus";
@@ -45,10 +49,20 @@ function runServer () {
     res.send(NOT_FOUND_404);
   });
 
-  app.listen(portNumber);
-  console.log(`
-    Server listening to port ${portNumber}
-  `);
+  const httpServer= http.createServer(app)
+  const httpsServer  = https.createServer({
+    key: fs.readFileSync('./sslcert/2_gck.guangzhaiziben.com.key', 'utf8'),
+    cert: fs.readFileSync('./sslcert/1_gck.guangzhaiziben.com_bundle.crt', 'utf8'),
+  },app)
+
+  httpsServer.listen(443, () => {
+    console.log('Server listening to port 443');
+  });
+
+  httpServer.listen(portNumber, () => {
+    console.log(` Server listening to port ${portNumber}`);
+  });
+
 }
 
 startAPP()
