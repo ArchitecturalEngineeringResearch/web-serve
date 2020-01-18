@@ -5,6 +5,7 @@ import { validationResult, checkSchema, Result,ValidationError }  from 'express-
 import { createMessage } from './validator'
 import { PRECONDITION_FAILED_412 } from '../../util/httpStatus'
 import { messageListModel } from '../../models/MessageList/messageList'
+import * as Qiniu from 'qiniu'
 
 const router = Express.Router()
 const jsonParser = bodyParser.json()
@@ -78,4 +79,21 @@ router.delete(
     })
   }
 )
+
+router.get(
+  '/uploadToken',
+  (req: Request, res: Response) => {
+    const { accessKey = '' , secretKey = '', scope = ''} = req.query
+
+
+    if(!(accessKey != '' && secretKey != '' && scope != '')) {
+      return res.status(PRECONDITION_FAILED_412).json({ errors: 'secretKey && accessKey && scope 不能为空' });
+    }
+
+    // 定义鉴权对象
+    const mac = new Qiniu.auth.digest.Mac(accessKey, secretKey)
+    const putPolicy = new Qiniu.rs.PutPolicy({scope})
+    res.send(putPolicy.uploadToken(mac))
+})
+
 export default router
