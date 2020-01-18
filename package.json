@@ -29,6 +29,7 @@
     "negotiator": "^0.6.2",
     "parse-json": "^5.0.0",
     "pify": "^4.0.1",
+    "qiniu": "^7.3.0",
     "raw-body": "^2.4.1",
     "resolve-from": "^5.0.0",
     "semver": "^7.1.1"
