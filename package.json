@@ -17,13 +17,14 @@
     "@types/mongoose": "^5.5.32",
     "@types/node": "^12.12.7",
     "@types/request": "^2.48.3",
+    "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "concurrently": "^5.0.0",
     "express": "^4.17.1",
     "express-validator": "^6.2.0",
     "mint-filter": "^3.0.0",
-    "bluebird": "^3.7.2",
     "mongoose": "^5.7.12",
+    "qiniu": "^7.3.0",
     "request": "^2.88.0"
   },
   "devDependencies": {
