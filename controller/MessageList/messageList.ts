@@ -29,10 +29,18 @@ router.post(
   checkSchema(createMessage),
   (req: Request, res: Response) => {
     const errors: Result<ValidationError> = validationResult(req);
+    const sensitiveWord = req.app.get('sensitiveWord');
     // 验证
 
     if (!errors.isEmpty()) {
       return res.status(PRECONDITION_FAILED_412).json({ errors: errors.array() });
+    }
+
+    //敏感同步过滤器
+    const { title, description } = req.body
+    if ( !(sensitiveWord.validator(title) && sensitiveWord.validator(description))) {
+      console.log('出现敏感词汇', title, description)
+      return res.status(PRECONDITION_FAILED_412).json({ errors: '请勿使用不和谐词汇'});
     }
 
     messageListModel.createOne(req.body, (err, value)=> {
