@@ -6,7 +6,7 @@ import * as http from 'http'
 import * as fs from 'fs'
 
 
-import {user, messageList} from './controller'
+import { user, messageList } from './controller'
 import { NOT_FOUND_404 } from "./util/httpStatus";
 import { MongoClientURL, MongoClientDBName, portNumber } from "./config";
 
@@ -31,6 +31,7 @@ async function startAPP() {
       Mongodb Access Successful:
         DBname: ${MongoClientDBName}
         Address: ${MongoClientURL}`)
+      sensitiveWordLibrary()
       runServer()
   }).catch((error)=> {
     console.error(error)
@@ -63,6 +64,26 @@ function runServer () {
     console.log(` Server listening to port ${portNumber}`);
   });
 
+}
+
+// 敏感词库
+function sensitiveWordLibrary () {
+  const readline = require('readline');
+  const FS = require('fs')
+  const path = './resources/keywords'
+
+  const wordKeys: Array<string> = []
+
+  readline.createInterface({
+    input:FS.createReadStream(path, {encoding: 'UTF-8'})
+  }).on('line',(line)=>{
+    wordKeys.push(line)
+  }).on('close',()=> {
+    const Mint = require('mint-filter').default
+    const mint = new Mint(wordKeys)
+    app.set('sensitiveWord',mint)
+    console.log('敏感词汇加载完成')
+  })
 }
 
 startAPP()
