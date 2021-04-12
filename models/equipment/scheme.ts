@@ -4,7 +4,6 @@ import { IUser } from '../../types'
 type IUserSchema = Record<keyof IUser.IUserModel, any>
 
 export const UserSchema: Schema<IUserSchema> = new Schema({
-  userName: String,
   appid: String,
   unionid: String,
   equipments: {

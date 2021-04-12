@@ -7,6 +7,8 @@ export interface IwechatCredentials {
 }
 
 export interface IUserModel {
+  userName: string,
   openid: string,
   unionid: string,
+  equipments: [string]
 }
