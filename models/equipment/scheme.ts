@@ -1,12 +1,13 @@
 import { Schema } from 'mongoose'
-import { IUser } from '../../types'
+import { IEquipment } from '../../types'
 
-type IUserSchema = Record<keyof IUser.IUserModel, any>
+type IEquipmentSchema = Record<keyof IEquipment.IEquipment, any>
 
-export const UserSchema: Schema<IUserSchema> = new Schema({
-  appid: String,
-  unionid: String,
-  equipments: {
+export const UserSchema: Schema<IEquipmentSchema> = new Schema({
+  code: String,
+  name: String,
+  description: String,
+  positions: {
     type: [String]
   }
 },{
